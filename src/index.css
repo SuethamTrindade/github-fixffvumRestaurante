@@ -1,5 +1,5 @@
 :root {
-  /* Paleta de Cores "RestaurantePro" */
+  /* Paleta "RestaurantePro" */
   --sidebar-bg: #1A1410;       /* Marrom/Preto profundo */
   --primary-orange: #F28A2E;   /* Laranja destaque */
   --bg-cream: #F7F3EF;         /* Bege fundo da página */
@@ -9,7 +9,7 @@
   --border-radius: 12px;
 }
 
-/* Reset Geral */
+/* Reset e Fonte */
 * {
   margin: 0;
   padding: 0;
@@ -20,11 +20,13 @@
 body, #root {
   background-color: var(--bg-cream);
   height: 100%;
+  width: 100%;
+  color: var(--text-dark);
 }
 
 /* --- OVERRIDES DO ANT DESIGN --- */
 
-/* Sidebar */
+/* Sidebar Personalizada */
 .ant-layout-sider {
   background-color: var(--sidebar-bg) !important;
 }
@@ -32,12 +34,14 @@ body, #root {
 /* Menu Lateral */
 .ant-menu.ant-menu-dark {
   background: transparent !important;
+  font-size: 15px;
 }
 
 .ant-menu-dark .ant-menu-item {
   margin-bottom: 8px !important;
   border-radius: 8px !important;
-  color: #999 !important;
+  color: #9CA3AF !important; /* Cinza claro para inativos */
+  font-weight: 500;
 }
 
 /* Item Selecionado (Laranja) */
@@ -45,66 +49,121 @@ body, #root {
   background-color: var(--primary-orange) !important;
   color: white !important;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(242, 138, 46, 0.4); /* Glow laranja suave */
+  box-shadow: 0 4px 14px rgba(242, 138, 46, 0.4); /* Glow laranja */
+}
+
+/* Ícones do Menu */
+.ant-menu-dark .ant-menu-item .anticon {
+  font-size: 18px;
 }
 
 /* Títulos das Páginas */
 h1.page-title {
   font-size: 28px;
   color: var(--text-dark);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.5px;
   margin-bottom: 4px;
 }
 
 p.page-subtitle {
   color: var(--text-grey);
   font-size: 14px;
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
-/* Botões Laranja */
+/* Botões (Laranja Moderno) */
 .ant-btn-primary {
   background-color: var(--primary-orange) !important;
   border-color: var(--primary-orange) !important;
-  box-shadow: 0 2px 8px rgba(242, 138, 46, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(242, 138, 46, 0.3) !important;
   border-radius: 8px !important;
-  font-weight: 500;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 20px;
 }
 .ant-btn-primary:hover {
   background-color: #ff9c4d !important;
   border-color: #ff9c4d !important;
+  transform: translateY(-1px);
 }
 
-/* Inputs e Selects Modernos */
-.ant-input, .ant-select-selector {
+/* Inputs e Selects (Clean) */
+.ant-input, .ant-select-selector, .ant-input-number, .ant-picker {
   border-radius: 8px !important;
-  border-color: #E0E0E0 !important;
+  border-color: #E5E7EB !important;
   padding: 6px 11px !important;
   box-shadow: none !important;
+  background-color: white !important;
 }
 .ant-input:focus, .ant-select-focused .ant-select-selector {
   border-color: var(--primary-orange) !important;
+  box-shadow: 0 0 0 2px rgba(242, 138, 46, 0.1) !important;
 }
 
-/* Tabela Profissional Clean */
+/* Tabela Profissional (Clean) */
 .clean-table .ant-table {
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* Sombra super leve */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  overflow: hidden;
 }
 
 .clean-table .ant-table-thead > tr > th {
   background: white !important;
   color: #888;
-  font-weight: 500;
-  border-bottom: 1px solid #f0f0f0;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #F3F4F6;
+  padding: 16px 24px !important;
 }
 
 .clean-table .ant-table-tbody > tr > td {
-  padding: 20px 16px !important; /* Mais espaçamento nas linhas */
+  padding: 20px 24px !important;
   font-size: 15px;
   color: var(--text-dark);
+  border-bottom: 1px solid #F9FAFB;
 }
 
 .clean-table .ant-table-row:hover > td {
-  background-color: #fff9f4 !important; /* Hover bege/laranja muito claro */
+  background-color: #FFF8F3 !important; /* Bege/Laranja muito claro no hover */
+}
+
+/* Cartões (Cards) */
+.ant-card {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02) !important;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .ant-layout-sider { display: none !important; }
+  .ant-layout { margin-left: 0 !important; }
+  h1.page-title { font-size: 24px !important; }
+  .clean-table .ant-table-content { overflow-x: auto !important; }
+  .page-header-wrapper {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+  .page-header-wrapper button {
+    width: 100%;
+  }
+}
+
+/* Header Mobile */
+.mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 0 20px;
+  height: 70px;
+  background: var(--sidebar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
