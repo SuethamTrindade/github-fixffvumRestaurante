@@ -1,67 +1,66 @@
-import { Table, Button, Popconfirm, Tag, Typography } from 'antd';
-import { DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Button, Popconfirm } from 'antd';
 
-const { Text } = Typography;
-
+/**
+ * Componente de tabela de pedidos
+ * @param {Array} data - Lista de pedidos
+ * @param {Object} clientesById - Mapa de clientes (id -> cliente)
+ * @param {Object} pratosById - Mapa de pratos (id -> prato)
+ * @param {Function} onDelete - Função para excluir pedido
+ */
 export default function PedidoTable({ data, clientesById, pratosById, onDelete }) {
   const columns = [
     {
-      title: 'DATA',
+      title: 'Data',
       dataIndex: 'data',
-      render: (d) => (
-        <span style={{ color: '#6B7280', fontSize: '13px' }}>
-          <CalendarOutlined style={{ marginRight: '6px' }} />
-          {new Date(d).toLocaleDateString('pt-BR')}
-        </span>
-      ),
+      render: (d) => new Date(d).toLocaleString('pt-BR'),
     },
     {
-      title: 'CLIENTE',
+      title: 'Cliente',
       dataIndex: 'clienteId',
-      render: (id) => <Text strong>{clientesById[id]?.nome || '—'}</Text>,
+      render: (id) => clientesById[id]?.nome || '—',
     },
     {
-      title: 'ITENS',
+      title: 'Itens',
       dataIndex: 'itens',
-      render: (itens) => (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-          {itens.map((i) => {
-            const prato = pratosById[i.pratoId];
-            return (
-              <Tag key={i.pratoId} color="default" style={{ border: '1px solid #E5E7EB', background: '#F9FAFB', color: '#374151' }}>
-                {i.quantidade}x {prato?.nome || '?'}
-              </Tag>
-            );
-          })}
-        </div>
-      ),
+      render: (itens) =>
+        itens.map((i) => {
+          const prato = pratosById[i.pratoId];
+          return (
+            <div key={i.pratoId} style={{ marginBottom: 8 }}>
+              <strong>{prato?.nome || 'Prato removido'}</strong> x{i.quantidade}
+              <div style={{ fontSize: '12px', fontStyle: 'italic', color: '#555' }}>
+                Ingredientes: {prato?.ingredientes?.join(', ') || '—'}
+              </div>
+            </div>
+          );
+        }),
     },
     {
-      title: 'TOTAL',
+      title: 'Valor Total',
       dataIndex: 'valorTotal',
-      align: 'right',
-      render: (v) => <span style={{ color: '#F28A2E', fontWeight: '700' }}>R$ {v.toFixed(2)}</span>,
+      render: (v) => `R$ ${v.toFixed(2)}`,
     },
     {
-      title: '',
-      align: 'right',
+      title: 'Ações',
       render: (_, record) => (
-        <Popconfirm title="Excluir?" onConfirm={() => onDelete(record.id)}>
-          <Button type="text" danger icon={<DeleteOutlined />} />
+        <Popconfirm
+          title="Excluir pedido?"
+          onConfirm={() => onDelete(record.id)}
+        >
+          <Button danger size="small">Excluir</Button>
         </Popconfirm>
       ),
     },
   ];
 
   return (
-    <div className="clean-table" style={{ background: 'white', borderRadius: '16px', padding: '8px' }}>
-      <Table 
-        rowKey="id" 
-        columns={columns} 
-        dataSource={data} 
-        pagination={{ pageSize: 6 }}
-        scroll={{ x: 'max-content' }} 
-      />
-    </div>
+    <Table 
+      rowKey="id" 
+      columns={columns} 
+      dataSource={data} 
+      pagination={{ pageSize: 5 }}
+      // ADICIONE ESTA LINHA:
+      scroll={{ x: 'max-content' }} 
+    />
   );
 }
